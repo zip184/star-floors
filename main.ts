@@ -15,9 +15,15 @@ interface MovementControls {
     getCurrentDirection: () => Direction;
 }
 
+interface Point {
+    x: number;
+    y: number;
+}
+
 // Constants
 const swordSwingTime = 240;
-const movementSpeed = 100;
+const movementSpeed = 80;
+const ballSpeed = 120;
 
 // Images
 const starsBg = assets.image`starsBg`;
@@ -62,23 +68,8 @@ const controlMovement = (player: Sprite, images: DirectionalImages) : MovementCo
                 dir = currentDirection;
             }
         }
-
-        let image = images.down;
-        switch(dir) {
-            case Direction.UP:
-                image = images.up;
-                break;
-            case Direction.DOWN:
-                image = images.down;
-                break;
-            case Direction.LEFT:
-                image = images.left;
-                break;
-            case Direction.RIGHT:
-                image = images.right;
-                break;
-        }
-        player.setImage(image);
+        
+        player.setImage(getImageFromDirection(dir, images));
 
         currentDirection = dir;
     };
@@ -150,10 +141,7 @@ const controlMovement = (player: Sprite, images: DirectionalImages) : MovementCo
     };
 };
 
-const controlSaber = (
-        player: Sprite,
-        movementControls: MovementControls,
-    ) => {
+const controlSaber = (player: Sprite, movementControls: MovementControls) => {
 
     // Sword state
     let sword : Sprite;
@@ -165,32 +153,9 @@ const controlSaber = (
         }
 
         // Create sword based on positions
-        let saberImg : Image;
-        let dx = 0, dy = 0;
-        switch(movementControls.getCurrentDirection()) {
-            case Direction.UP:
-                saberImg = saberImages.up;
-                dy = -player.height;
-                break;
-            case Direction.DOWN:
-                saberImg = saberImages.down;
-                dy = player.height;
-                break;
-            case Direction.LEFT:
-                saberImg = saberImages.left;
-                dx = -player.width;
-                break;
-            case Direction.RIGHT:
-                dx = player.width;
-                saberImg = saberImages.right;
-                break;
-            default:
-                console.error("Bad direction");
-                return;
-        }
-        
-        sword = sprites.create(saberImg, SpriteKind.Projectile);
-        sword.setPosition(player.x + dx, player.y + dy);
+        sword = sprites.create(getImageFromDirection(movementControls.getCurrentDirection(), saberImages), SpriteKind.Projectile);
+        const swordPos = getAdjacentPos(player, movementControls.getCurrentDirection());
+        sword.setPosition(swordPos.x, swordPos.y);
         isSwinging = true;
         movementControls.setMovementEnabled(false);
 
@@ -202,40 +167,127 @@ const controlSaber = (
     });
 };
 
+const controlKnob = (player: Sprite, movementControls: MovementControls, barsTileLocations: Point[]) => {
+    // State
+    let knob : Sprite;
+    let isThrowing = false; // Ball is moving
+    let isReturning = false; // Ball has bounced and is returning
+
+    const throwKnob = () => {
+        knob = sprites.createProjectileFromSprite(assets.image`knob`, player, -50, 0);
+        knob.setFlag(SpriteFlag.BounceOnWall, true);
+        knob.setFlag(SpriteFlag.DestroyOnWall, false);
+        knob.setFlag(SpriteFlag.AutoDestroy, false);
+
+        // Set knob velocity
+        let vx = 0, vy = 0;
+        switch(movementControls.getCurrentDirection()) {
+            case Direction.UP:
+                vy = -ballSpeed;
+                break;
+            case Direction.DOWN:
+                vy = ballSpeed;
+                break;
+            case Direction.LEFT:
+                vx = -ballSpeed;
+                break;
+            case Direction.RIGHT:
+                vx = ballSpeed;
+                break;
+        }
+        knob.vx = vx;
+        knob.vy = vy;
+
+        isThrowing = true;
+    }
+
+    // Throw knob
+    controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
+        if (isThrowing) {
+            // Ball is already moving
+            return;
+        }
+        
+        throwKnob();
+    });
+    
+    // On bounce
+    scene.onHitWall(SpriteKind.Projectile, function(sprite: Sprite, location: tiles.Location) {
+        if (knob && sprite === knob) {
+            isReturning = true;
+        }
+
+        for (let i=0; i < barsTileLocations.length; i++) {
+            if (location.x === barsTileLocations[i].x && location.y === barsTileLocations[i].y) {
+                console.log('hit bars ');
+                return;
+            }
+        }
+
+        console.log('hit wall ' + location.x + ', ' + location.y);
+    });
+
+    // On catch
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function(sprite: Sprite, otherSprite: Sprite) {
+        if (isReturning && sprite === player && otherSprite === knob) {
+            knob.destroy();
+            isReturning = false;
+            isThrowing = false;
+        }
+    });
+
+
+};
+
 const startFloor1 = () => {
+    // Constants
+    const barsTileLocations : Point[] = [{x: 9, y: 4},{x: 9, y: 5}];
+
     tiles.setTilemap(tilemap`floor1`);
 
     // Level State
     let yodaHasSaber = false;
+    let yodaHasKnob = false;
 
     const yoda = sprites.create(yodaImages.down, SpriteKind.Player);
     yoda.x = 50;
     yoda.y = 50;
 
     const saber = sprites.create(assets.image`saberItem`, SpriteKind.Food);
-    saber.x = 120;
+    saber.x = 87;
     saber.y = 50;
+
+    const knobItem = sprites.create(assets.image`knob`, SpriteKind.Food);
+    knobItem.x = 87;
+    knobItem.y = 80;
 
     const movementControls : MovementControls = controlMovement(yoda, yodaImages);
           
     scene.cameraFollowSprite(yoda);
     
+    // Pickup items
     sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite: Sprite, otherSprite: Sprite) {
         if (sprite === yoda && otherSprite === saber) {
             yodaHasSaber = true;
             controlSaber(yoda, movementControls);
             otherSprite.destroy();
         }
+
+        if (sprite === yoda && otherSprite === knobItem) {
+            yodaHasKnob = true;
+            controlKnob(yoda, movementControls, barsTileLocations);
+            knobItem.destroy();
+        }
     });
 
-    //game.splash("Floor #1");
+    game.splash("Floor #1");
 };
 
 // Main
-/*
+
 scene.setBackgroundImage(starsBg);
 game.splash("STAR FLOORS!", "Help Maybe Yoda Escape!");
 game.splash("May the FLOORS", "be with you!");
-*/
+
 
 startFloor1();
