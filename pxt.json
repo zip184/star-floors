@@ -13,7 +13,8 @@
         "images.g.ts",
         "tilemap.g.jres",
         "tilemap.g.ts",
-        "utils.ts"
+        "utils.ts",
+        "types.ts"
     ],
     "testFiles": [
         "test.ts"

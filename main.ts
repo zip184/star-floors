@@ -153,7 +153,7 @@ const controlSaber = (player: Sprite, movementControls: MovementControls) => {
         }
 
         // Create sword based on positions
-        sword = sprites.create(getImageFromDirection(movementControls.getCurrentDirection(), saberImages), SpriteKind.Projectile);
+        sword = sprites.create(getImageFromDirection(movementControls.getCurrentDirection(), saberImages), SpriteKind.Melee);
         const swordPos = getAdjacentPos(player, movementControls.getCurrentDirection());
         sword.setPosition(swordPos.x, swordPos.y);
         isSwinging = true;
@@ -245,6 +245,8 @@ const startFloor1 = () => {
 
     tiles.setTilemap(tilemap`floor1`);
 
+    console.log(typeof tilemap`floor1`)
+
     // Level State
     let yodaHasSaber = false;
     let yodaHasKnob = false;
@@ -253,11 +255,11 @@ const startFloor1 = () => {
     yoda.x = 50;
     yoda.y = 50;
 
-    const saber = sprites.create(assets.image`saberItem`, SpriteKind.Food);
+    const saber = sprites.create(assets.image`saberItem`, SpriteKind.Item);
     saber.x = 87;
     saber.y = 50;
 
-    const knobItem = sprites.create(assets.image`knob`, SpriteKind.Food);
+    const knobItem = sprites.create(assets.image`knob`, SpriteKind.Item);
     knobItem.x = 87;
     knobItem.y = 80;
 
@@ -266,7 +268,7 @@ const startFloor1 = () => {
     scene.cameraFollowSprite(yoda);
     
     // Pickup items
-    sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite: Sprite, otherSprite: Sprite) {
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Item, function(sprite: Sprite, otherSprite: Sprite) {
         if (sprite === yoda && otherSprite === saber) {
             yodaHasSaber = true;
             controlSaber(yoda, movementControls);
