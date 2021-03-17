@@ -44,4 +44,7 @@ const getImageFromDirection = (direction: Direction, images: DirectionalImages) 
     }
 
     return image;
-}
+};
+
+const areSameLocation = (loc1: tiles.Location, loc2: tiles.Location): boolean =>
+    loc1.x === loc2.x && loc1.y === loc2.y;

@@ -1,4 +1,8 @@
-const controlKnobMovement = (player: Sprite, movementControls: MovementControls, barsTileLocations: Point[]) => {
+const controlKnobMovement = (
+    player: Sprite, movementControls: MovementControls, 
+    barsTileLocations: Point[]
+) : Sprite => {
+        
     // State
     let knob : Sprite;
     let isThrowing = false; // Ball is moving
@@ -56,4 +60,6 @@ const controlKnobMovement = (player: Sprite, movementControls: MovementControls,
             isThrowing = false;
         }
     });
+
+    return knob;
 };

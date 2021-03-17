@@ -42,7 +42,7 @@ let saberImages = <DirectionalImages>{
     right: assets.image`swordRight`,
 };
 
-const startFloor1 = () => {
+const startFloor1 = (onFinish: () => void) => {
     // Constants
     const barsTileLocations : Point[] = [{x: 9, y: 4},{x: 9, y: 5}];
 
@@ -51,18 +51,20 @@ const startFloor1 = () => {
     // Level State
     let yodaHasSaber = false;
     let yodaHasKnob = false;
+    let cellLockIsOn = true;
+    let knobProjectile: Sprite = null;
 
     const yoda = sprites.create(yodaImages.down, SpriteKind.Player);
     yoda.x = 50;
     yoda.y = 50;
 
     const saber = sprites.create(assets.image`saberItem`, SpriteKind.Item);
-    saber.x = 87;
-    saber.y = 50;
+    saber.x = 184;
+    saber.y = 200;
 
     const knobItem = sprites.create(assets.image`knob`, SpriteKind.Item);
-    knobItem.x = 87;
-    knobItem.y = 80;
+    knobItem.x = 136;
+    knobItem.y = 25;
 
     const movementControls : MovementControls = controlPlayerMovement(yoda, yodaImages);
     
@@ -78,30 +80,52 @@ const startFloor1 = () => {
 
         if (sprite === yoda && otherSprite === knobItem) {
             yodaHasKnob = true;
-            controlKnobMovement(yoda, movementControls, barsTileLocations);
+            knobProjectile = controlKnobMovement(yoda, movementControls, barsTileLocations);
             knobItem.destroy();
         }
     });
 
     // On bars touch
     const pushBackYoda = function(sprite: Sprite, location: tiles.Location) {
-        if (sprite !== yoda) {
+        if (sprite === yoda && cellLockIsOn) {
             yoda.x -= 1;
         }
     };
     scene.onOverlapTile(SpriteKind.Player, assets.tile`rightBottomBars`, pushBackYoda);
     scene.onOverlapTile(SpriteKind.Player, assets.tile`rightTopBars`, pushBackYoda);
-
     
+    // Switch code
+    const switchLocation = tiles.getTilesByType(assets.tile`switchOnLeft`)[0];
+    scene.onHitWall(SpriteKind.Projectile, function(sprite: Sprite, location: tiles.Location) {
+        if (!cellLockIsOn) {
+            return;
+        }
 
-    //game.splash("Floor #1");
+        if (areSameLocation(location, switchLocation)) {
+            cellLockIsOn = false;
+            
+            // Flip switch tile to off
+            tiles.setTileAt(switchLocation, assets.tile`switchOffLeft`);
+
+            // Open cell doors
+            const topCell = tiles.getTilesByType(assets.tile`rightTopBars`)[0];
+            tiles.setTileAt(topCell, assets.tile`rightTopBarsOpen`);
+            const bottomCell = tiles.getTilesByType(assets.tile`rightBottomBars`)[0];
+            tiles.setTileAt(bottomCell, assets.tile`rightBottomBarsOpen`);
+        }
+    });
+
+    game.splash("Floor #1");
+    yoda.say("What's that?", 1200)
 };
 
 // Main
 
 scene.setBackgroundImage(starsBg);
-//game.splash("STAR FLOORS!", "Help Maybe Yoda Escape!");
-//game.splash("May the FLOORS", "be with you!");
+game.splash("STAR FLOORS!", "Help Maybe Yoda Escape!");
+game.splash("May the FLOORS", "be with you!");
 
 
-startFloor1();
+startFloor1(() => {
+    game.splash("Maybe Yoda Escaped!");
+});
