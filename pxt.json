@@ -14,7 +14,10 @@
         "tilemap.g.jres",
         "tilemap.g.ts",
         "utils.ts",
-        "types.ts"
+        "types.ts",
+        "playerMovement.ts",
+        "knobMovement.ts",
+        "saberMovement.ts"
     ],
     "testFiles": [
         "test.ts"
