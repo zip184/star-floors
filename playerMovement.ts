@@ -36,10 +36,10 @@ const controlPlayerMovement = (player: Sprite, images: DirectionalImages) : Move
         let vy = 0;
 
         if (movementEnabled) {
-            if (controller.up.isPressed()) vy -= movementSpeed;
-            if (controller.down.isPressed()) vy += movementSpeed;
-            if (controller.left.isPressed()) vx -= movementSpeed;
-            if (controller.right.isPressed()) vx += movementSpeed;
+            if (controller.up.isPressed()) vy -= MOVEMENT_SPEED;
+            if (controller.down.isPressed()) vy += MOVEMENT_SPEED;
+            if (controller.left.isPressed()) vx -= MOVEMENT_SPEED;
+            if (controller.right.isPressed()) vx += MOVEMENT_SPEED;
         }
 
         player.vx = vx;

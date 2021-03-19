@@ -19,6 +19,6 @@ const controlSaberMovement = (player: Sprite, movementControls: MovementControls
             sword.destroy();
             isSwinging = false;
             movementControls.setMovementEnabled(true);
-        }, swordSwingTime);
+        }, SWORD_SWING_TIME);
     });
 };

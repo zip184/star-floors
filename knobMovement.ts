@@ -18,16 +18,16 @@ const controlKnobMovement = (
         let vx = 0, vy = 0;
         switch(movementControls.getCurrentDirection()) {
             case Direction.UP:
-                vy = -ballSpeed;
+                vy = -BALL_SPEED;
                 break;
             case Direction.DOWN:
-                vy = ballSpeed;
+                vy = BALL_SPEED;
                 break;
             case Direction.LEFT:
-                vx = -ballSpeed;
+                vx = -BALL_SPEED;
                 break;
             case Direction.RIGHT:
-                vx = ballSpeed;
+                vx = BALL_SPEED;
                 break;
         }
         knob.vx = vx;
