@@ -16,14 +16,21 @@ const floor1 = <Floor>{
         yoda.y = 50;
 
         const saber = sprites.create(assets.image`saberItem`, SpriteKind.Item);
-        saber.x = 184;
-        saber.y = 200;
+        //saber.x = 184;
+        //saber.y = 200;
+        saber.x = 22;
+        saber.y = 22;
 
         const knobItem = sprites.create(assets.image`knob`, SpriteKind.Item);
         knobItem.x = 136;
         knobItem.y = 25;
 
-        const movementControls : MovementControls = controlPlayerMovement(yoda, yodaImages);
+        const rockControls: SmashableControls = createSmashable(rockImages, 10);
+        const rock = sprites.create(rockImages[0], SpriteKind.Smashable);
+        rock.x = 35;
+        rock.y = 80;
+
+        const yodaMovementControls : MovementControls = controlPlayerMovement(yoda, yodaImages);
         
         scene.cameraFollowSprite(yoda);
         
@@ -31,13 +38,13 @@ const floor1 = <Floor>{
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Item, function(sprite: Sprite, otherSprite: Sprite) {
             if (sprite === yoda && otherSprite === saber) {
                 yodaHasSaber = true;
-                controlSaberMovement(yoda, movementControls);
+                controlSaberMovement(yoda, yodaMovementControls);
                 otherSprite.destroy();
             }
 
             if (sprite === yoda && otherSprite === knobItem) {
                 yodaHasKnob = true;
-                knobProjectile = controlKnobMovement(yoda, movementControls, barsTileLocations);
+                knobProjectile = controlKnobMovement(yoda, yodaMovementControls, barsTileLocations);
                 knobItem.destroy();
             }
         });
@@ -45,8 +52,7 @@ const floor1 = <Floor>{
         // On bars touch
         const pushBackYoda = function(sprite: Sprite, location: tiles.Location) {
             if (sprite === yoda && cellLockIsOn) {
-                yoda.x -= 1;
-                yoda.say("Won't Budge!", 1000);
+                yodaMovementControls.pushBack();
             }
         };
         scene.onOverlapTile(SpriteKind.Player, assets.tile`rightBottomBars`, pushBackYoda);
@@ -73,7 +79,15 @@ const floor1 = <Floor>{
             }
         });
 
-        game.splash("Floor #1");
-        yoda.say("What's that?", 1200);
+        sprites.onOverlap(SpriteKind.Melee, SpriteKind.Smashable, function(sprite: Sprite, otherSprite: Sprite) {
+            console.log('hit');
+        });
+
+        sprites.onOverlap(SpriteKind.Player, SpriteKind.Smashable, function(sprite: Sprite, otherSprite: Sprite) {
+            console.log('player hit');
+        });
+
+        //game.splash("Floor #1");
+        //yoda.say("What's that?", 1200);
     }
 };

@@ -20,5 +20,11 @@ const controlSaberMovement = (player: Sprite, movementControls: MovementControls
             isSwinging = false;
             movementControls.setMovementEnabled(true);
         }, SWORD_SWING_TIME);
+
+        sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Smashable, function(sprite: Sprite, otherSprite: Sprite) {
+            if (sprite === sword) {
+                console.log('hit');
+            }
+        });
     });
 };

@@ -9,11 +9,6 @@ interface DirectionalImages {
     right: Image;
 }
 
-interface MovementControls {
-    setMovementEnabled: (enabled: boolean) => void;
-    getCurrentDirection: () => Direction;
-}
-
 interface Point {
     x: number;
     y: number;
@@ -22,6 +17,7 @@ interface Point {
 namespace SpriteKind {
     export const Item = SpriteKind.create();
     export const Melee = SpriteKind.create();
+    export const Smashable = SpriteKind.create();
 }
 
 interface Floor {

@@ -54,6 +54,21 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "knob"
     },
+    "image12": {
+        "data": "hwQQABAAAAAAAADMzMzMzAAAzLvLzMvMAMC7zLvMu8wAvLvLvMy7zMC8u7u8zLzMwNvdu7zMzMy8u9u9vMzMzLzdu728vLvM3N3d28zMvMvc3d3bzL3My9zd3du83cvL3N3du9zdzcvA3b3L3N3NywC8u8zc3b3LAMDMzLzdvMwAAAAAwLzLzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "rock0"
+    },
+    "image13": {
+        "data": "hwQQABAAAAAAAAAAzMzMzAAAAMDLzMvMAAAAzLzMu8wAAADMvMy7zAAA3Ly8zLzMAADc3bzMzMwAANvdvMzMzAAA2728vLvMAADA3czMvMsAAMDdzL3MywAAANu83cvLAAAAu9zdzcsAAADL3N3NywAAAMzc3b3LAAAAzLzdvMwAAAAAwLzLzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "rock1"
+    },
+    "image14": {
+        "data": "hwQQABAAAAAAAAAAAADAzAAAAAAAAMDLAAAAAAAAwMsAAAAAAADAzQAAAAAAALzLAAAAAAAA3M0AAAAAAMC8zAAAAAAAsLvMAAAAAADMvMsAAAAAALzMywAAAAAA3NvLAAAAAAC828sAAAAAALzNywAAAAAAwL3LAAAAAAAAvMwAAAAAAADAzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "rock2"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

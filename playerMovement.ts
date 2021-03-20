@@ -1,10 +1,15 @@
+interface MovementControls {
+    setMovementEnabled: (enabled: boolean) => void;
+    getCurrentDirection: () => Direction;
+    pushBack: () => void;
+}
 
 const controlPlayerMovement = (player: Sprite, images: DirectionalImages) : MovementControls => {
     // State
     let movementEnabled = true;
     let currentDirection = Direction.DOWN;
 
-    const getDirectionFromMovement = () => {
+    const getDirectionFromMovement = (): Direction | undefined => {
         const { vx, vy } = player;
 
         if (vx && !vy) {
@@ -92,8 +97,29 @@ const controlPlayerMovement = (player: Sprite, images: DirectionalImages) : Move
         setVelocityFromControls();
     };
 
+    const pushBack = () => {
+        if (player.vx > 0) {
+            player.x -= PUSH_BACK_DISTANCE;
+            player.vx = 0;
+        } else if (player.vx < 0) {
+            player.x += PUSH_BACK_DISTANCE;
+            player.vx = 0;
+        }
+
+        if (player.vy > 0) {
+            player.y -= PUSH_BACK_DISTANCE;
+            player.vy = 0;
+        } else if (player.vy < 0) {
+            player.y += PUSH_BACK_DISTANCE;
+            player.vy = 0;
+        }
+
+        player.say("Won't Budge!", 800);
+    }
+
     return <MovementControls>{
         setMovementEnabled,
         getCurrentDirection: () => currentDirection,
+        pushBack,
     };
 };
