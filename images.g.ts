@@ -336,7 +336,7 @@ c c c c c c c c b b b b b b c c
 c c c c c c c c c c c c c c c c 
 `;
             case "image13":
-            case "rock1":return img`
+            case "rock2":return img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -354,8 +354,27 @@ c c b b b c c b b c c c c b b c
 c c c c c c c c b b b b b b c c 
 c c c c c c c c c c c c c c c c 
 `;
+            case "image15":
+            case "rock1":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . c c . . . c c c . . . 
+. . c c b d b c c c d d d c . . 
+. c b b b d b d d d d d d b c . 
+. c b b b d d d d d d d b b c . 
+c b c b b b d d b b b b b c c . 
+c b c c b b b b d d d b c c c c 
+c b b c c c c c c c c c c c c c 
+c c b b b b b b c c b d d d b c 
+c c c c c c c c c d d d d d d c 
+c c c c c c c b c b d d d d d b 
+c b b b c c c b c c b d d d c b 
+c c b b b c c b b c c c c b b c 
+c c c c c c c c b b b b b b c c 
+c c c c c c c c c c c c c c c c 
+`;
             case "image14":
-            case "rock2":return img`
+            case "rock3":return img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 

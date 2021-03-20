@@ -11,6 +11,9 @@ const floor1 = <Floor>{
         let cellLockIsOn = true;
         let knobProjectile: Sprite = null;
 
+        let strikeCount = 0;
+        let onSaberStrike: (sprite: Sprite) => void;
+
         const yoda = sprites.create(yodaImages.down, SpriteKind.Player);
         yoda.x = 50;
         yoda.y = 50;
@@ -25,10 +28,10 @@ const floor1 = <Floor>{
         knobItem.x = 136;
         knobItem.y = 25;
 
-        const rockControls: SmashableControls = createSmashable(rockImages, 10);
-        const rock = sprites.create(rockImages[0], SpriteKind.Smashable);
-        rock.x = 35;
-        rock.y = 80;
+        const rockControls: SmashableControls = createSmashable(rockImages, 7);
+        const rock = rockControls.sprite;
+        rock.x = 72;
+        rock.y = 104;
 
         const yodaMovementControls : MovementControls = controlPlayerMovement(yoda, yodaImages);
         
@@ -38,7 +41,7 @@ const floor1 = <Floor>{
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Item, function(sprite: Sprite, otherSprite: Sprite) {
             if (sprite === yoda && otherSprite === saber) {
                 yodaHasSaber = true;
-                controlSaberMovement(yoda, yodaMovementControls);
+                controlSaberMovement(yoda, yodaMovementControls, onSaberStrike);
                 otherSprite.destroy();
             }
 
@@ -79,12 +82,14 @@ const floor1 = <Floor>{
             }
         });
 
-        sprites.onOverlap(SpriteKind.Melee, SpriteKind.Smashable, function(sprite: Sprite, otherSprite: Sprite) {
-            console.log('hit');
-        });
+        onSaberStrike = (sprite: Sprite) => {
+            rockControls.smash(1); 
+        };
 
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Smashable, function(sprite: Sprite, otherSprite: Sprite) {
-            console.log('player hit');
+            if (sprite === yoda) {
+                yodaMovementControls.pushBack();
+            }
         });
 
         //game.splash("Floor #1");

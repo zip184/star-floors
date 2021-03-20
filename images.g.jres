@@ -62,12 +62,17 @@
     "image13": {
         "data": "hwQQABAAAAAAAAAAzMzMzAAAAMDLzMvMAAAAzLzMu8wAAADMvMy7zAAA3Ly8zLzMAADc3bzMzMwAANvdvMzMzAAA2728vLvMAADA3czMvMsAAMDdzL3MywAAANu83cvLAAAAu9zdzcsAAADL3N3NywAAAMzc3b3LAAAAzLzdvMwAAAAAwLzLzA==",
         "mimeType": "image/x-mkcd-f4",
+        "displayName": "rock2"
+    },
+    "image15": {
+        "data": "hwQQABAAAAAAAADMzMzMzAAAzLvLzMvMAMC7zLvMu8wAwLvLvMy7zACwu7u8zLzMANzdu7zMzMwAvNu9vMzMzADA3b28vLvMAMDd28zMvMsAwN3bzL3MywDc3du83cvLANzdu9zdzcsA3L3L3N3NywDAu8zc3b3LAADMzLzdvMwAAADAzLzLzA==",
+        "mimeType": "image/x-mkcd-f4",
         "displayName": "rock1"
     },
     "image14": {
         "data": "hwQQABAAAAAAAAAAAADAzAAAAAAAAMDLAAAAAAAAwMsAAAAAAADAzQAAAAAAALzLAAAAAAAA3M0AAAAAAMC8zAAAAAAAsLvMAAAAAADMvMsAAAAAALzMywAAAAAA3NvLAAAAAAC828sAAAAAALzNywAAAAAAwL3LAAAAAAAAvMwAAAAAAADAzA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "rock2"
+        "displayName": "rock3"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",

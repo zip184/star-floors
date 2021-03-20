@@ -20,7 +20,8 @@
         "saberMovement.ts",
         "floor1.ts",
         "smashable.ts",
-        "constants.ts"
+        "constants.ts",
+        "imageStructs.ts"
     ],
     "testFiles": [
         "test.ts"

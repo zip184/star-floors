@@ -1,27 +1,52 @@
 interface SmashableControls {
+    sprite: Sprite;
     smash: (health: number) => void;
     getHealth: () => number;
-    getImage: () => Image;
+    isDestroyed: () => boolean;
 }
 
 const createSmashable = (images: Image[], health: number) : SmashableControls => {
-    
-    const totalHealth = health;
-    let currentHealth = health;
+    // State
+    let currentHealth = health; // Current health of smashable
+    let imgIndex: number; // Last calculated image index
 
-    const getImage = () => {
+    const totalHealth = health;
+
+    const calcImageIndex = () => {
         const factor = currentHealth / totalHealth;
-        const imgIndex = Math.trunc(factor * totalHealth);
-        return images[imgIndex];
+        return Math.ceil(images.length - factor * images.length);
     };
+
+    // Calc initial index
+    imgIndex = calcImageIndex();
+
+    const sprite = sprites.create(images[0], SpriteKind.Smashable);
 
     const getHealth = () => currentHealth;
 
-    const smash = (health: number) => currentHealth -= health;
+    const smash = (health: number) => {
+        currentHealth -= health;
+        const newIndex = calcImageIndex();
+
+        if (newIndex != imgIndex) {
+            imgIndex = newIndex;
+            sprite.setImage(images[imgIndex]);
+        }
+
+        if (currentHealth <= 0) {
+            sprite.destroy();
+            music.smallCrash.play();
+        } else {
+            music.zapped.play();
+        }
+    };
+
+    const isDestroyed = () => currentHealth <= 0;
 
     return <SmashableControls>{
-        getImage,
         getHealth,
         smash,
+        sprite,
+        isDestroyed
     };
 };
