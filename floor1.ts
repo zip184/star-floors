@@ -1,5 +1,5 @@
 const floor1 = <Floor>{
-    start: function()  {
+    start: function(onFinish)  {
         // Constants
         const barsTileLocations : Point[] = [{x: 9, y: 4},{x: 9, y: 5}];
 
@@ -11,30 +11,32 @@ const floor1 = <Floor>{
         let cellLockIsOn = true;
         let knobProjectile: Sprite = null;
 
-        let strikeCount = 0;
         let onSaberStrike: (sprite: Sprite) => void;
 
-        const yoda = sprites.create(yodaImages.down, SpriteKind.Player);
-        yoda.x = 50;
-        yoda.y = 50;
-
         const saber = sprites.create(assets.image`saberItem`, SpriteKind.Item);
-        //saber.x = 184;
-        //saber.y = 200;
-        saber.x = 22;
-        saber.y = 22;
+        saber.x = 40;
+        saber.y = 230;
+        //saber.x = 22;
+        //saber.y = 22;
 
         const knobItem = sprites.create(assets.image`knob`, SpriteKind.Item);
         knobItem.x = 136;
         knobItem.y = 25;
 
+        // Setup smashable rock
         const rockControls: SmashableControls = createSmashable(rockImages, 7);
         const rock = rockControls.sprite;
-        rock.x = 72;
-        rock.y = 104;
+        rock.x = 182;
+        rock.y = 200;
+        onSaberStrike = (sprite: Sprite) => {
+            rockControls.smash(1); 
+        };
 
+        // Create Yoda
+        const yoda = sprites.create(yodaImages.down, SpriteKind.Player);
+        yoda.x = 50;
+        yoda.y = 50;
         const yodaMovementControls : MovementControls = controlPlayerMovement(yoda, yodaImages);
-        
         scene.cameraFollowSprite(yoda);
         
         // Pickup items
@@ -43,6 +45,7 @@ const floor1 = <Floor>{
                 yodaHasSaber = true;
                 controlSaberMovement(yoda, yodaMovementControls, onSaberStrike);
                 otherSprite.destroy();
+                music.powerUp.play();
             }
 
             if (sprite === yoda && otherSprite === knobItem) {
@@ -82,14 +85,17 @@ const floor1 = <Floor>{
             }
         });
 
-        onSaberStrike = (sprite: Sprite) => {
-            rockControls.smash(1); 
-        };
-
         sprites.onOverlap(SpriteKind.Player, SpriteKind.Smashable, function(sprite: Sprite, otherSprite: Sprite) {
             if (sprite === yoda) {
                 yodaMovementControls.pushBack();
             }
+        });
+
+        // Finish level
+        scene.onOverlapTile(SpriteKind.Player, assets.tile`exitStairs`, function(sprite: Sprite, location: tiles.Location) {
+            if (sprite === yoda) {
+                onFinish();
+            };
         });
 
         //game.splash("Floor #1");

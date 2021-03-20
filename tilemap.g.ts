@@ -16,11 +16,13 @@ namespace myTiles {
     export const tile7 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile6 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile9 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
             case "floor1":
-            case "level1":return tiles.createTilemap(hex`1000100002020202020202020202020202020202020101010101010101020202020202020201010101010101010201010202020202010101010101010103010105020202020101010101010101040101020202020201010101010101010201010202020202020202020202020202010102020202020202020202020202020101020202020202020202020202020201010202020202020202020202020202010102020202020101010101010101010101020202020201010101010101010101010202020202010102020202020202020102020202020101020202020202020101010202020201010202020202020201010602020202020202020202020202020202020202`, img`
+            case "level1":return tiles.createTilemap(hex`1000100002020202020202020202020202020202020101010101010101020202020202020201010101010101010201010202020202010101010101010103010105020202020101010101010101040101020202020201010101010101010201010202020202020202020202020202010102020202020202020202020202020101020202020202020202020202020201010202020202020202020202020202010102020202020101010101010101010101020202020201010101010101010101010202020202010101020202020202020102020202020101010202020202020101010202020201010102020202020201060102020202020202020202020202020202020202`, img`
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 . . . . . . . . 2 2 2 2 2 2 2 
 2 . . . . . . . . 2 . . 2 2 2 2 
@@ -33,11 +35,11 @@ namespace myTiles {
 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 
 2 . . . . . . . . . . . 2 2 2 2 
 2 . . . . . . . . . . . 2 2 2 2 
-2 . . 2 2 2 2 2 2 2 2 . 2 2 2 2 
-2 . . 2 . . . . . 2 . . . 2 2 2 
-2 . . 2 . . . . . 2 . . . 2 2 2 
+2 . . . 2 2 2 2 2 2 2 . 2 2 2 2 
+2 . . . 2 2 2 2 2 2 . . . 2 2 2 
+2 . . . 2 2 2 2 2 2 . . . 2 2 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-`, [myTiles.transparency16,sprites.dungeon.floorLight2,myTiles.tile2,myTiles.tile1,myTiles.tile3,myTiles.tile4,sprites.dungeon.stairLarge], TileScale.Sixteen);
+`, [myTiles.transparency16,sprites.dungeon.floorLight2,myTiles.tile2,myTiles.tile1,myTiles.tile3,myTiles.tile4,myTiles.tile9], TileScale.Sixteen);
         }
         return null;
     })
@@ -59,6 +61,8 @@ namespace myTiles {
             case "tile7":return tile7;
             case "rightTopBarsOpen":
             case "tile6":return tile6;
+            case "exitStairs":
+            case "tile9":return tile9;
         }
         return null;
     })

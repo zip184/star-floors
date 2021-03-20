@@ -33,6 +33,8 @@ const controlKnobMovement = (
         knob.vx = vx;
         knob.vy = vy;
 
+        music.knock.play();
+
         isThrowing = true;
     }
 
@@ -49,6 +51,7 @@ const controlKnobMovement = (
     scene.onHitWall(SpriteKind.Projectile, function(sprite: Sprite, location: tiles.Location) {
         if (knob && sprite === knob) {
             isReturning = true;
+            music.thump.play();
         }
     });
 
