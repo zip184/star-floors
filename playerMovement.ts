@@ -115,6 +115,7 @@ const controlPlayerMovement = (player: Sprite, images: DirectionalImages) : Move
         }
 
         player.say("Won't Budge!", 800);
+        music.bigCrash.play();
     }
 
     return <MovementControls>{

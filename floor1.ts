@@ -46,12 +46,15 @@ const floor1 = <Floor>{
                 controlSaberMovement(yoda, yodaMovementControls, onSaberStrike);
                 otherSprite.destroy();
                 music.powerUp.play();
+                yoda.say('I slash with A', 2400);
             }
 
             if (sprite === yoda && otherSprite === knobItem) {
                 yodaHasKnob = true;
                 knobProjectile = controlKnobMovement(yoda, yodaMovementControls, barsTileLocations);
                 knobItem.destroy();
+                yoda.say('I throw with B', 2400);
+                music.thump.play();
             }
         });
 
@@ -82,6 +85,7 @@ const floor1 = <Floor>{
                 tiles.setTileAt(topCell, assets.tile`rightTopBarsOpen`);
                 const bottomCell = tiles.getTilesByType(assets.tile`rightBottomBars`)[0];
                 tiles.setTileAt(bottomCell, assets.tile`rightBottomBarsOpen`);
+                music.powerUp.play();
             }
         });
 
